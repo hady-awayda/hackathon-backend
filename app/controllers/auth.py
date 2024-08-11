@@ -1,8 +1,8 @@
 from fastapi import HTTPException, Response, status
 from sqlalchemy.orm import Session
-from app.schemas.auth_schemas import RegisterRequest, LoginRequest
+from app.schemas.auth import RegisterRequest, LoginRequest
 from app.repositories.user import create_user, authenticate_user, get_user_by_email
-from app.utils.jwt_handler import create_access_token
+from app.utils.auth.jwt_handler import create_access_token
 
 def register_controller(request: RegisterRequest, response: Response, db: Session):
     user = get_user_by_email(db, request.email)

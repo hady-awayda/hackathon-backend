@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy.orm import Session
 from app.controllers.auth import register_controller, login_controller
-from app.schemas.auth_schemas import RegisterRequest, LoginRequest
+from app.schemas.auth import RegisterRequest, LoginRequest
 from config.database import get_db
 
 router = APIRouter()

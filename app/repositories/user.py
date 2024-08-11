@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from app.schemas.auth_schemas import RegisterRequest
-from app.utils.hash_password import hash_password, verify_password
+from app.schemas.auth import RegisterRequest
+from app.utils.auth.hash_password import hash_password, verify_password
 from app.models.users import User
 
 def create_user(db: Session, request: RegisterRequest):

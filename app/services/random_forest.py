@@ -1,10 +1,10 @@
-from app.utils.logger import logger
+from app.utils.logs.logger import logger
 from app.ml_models.random_forest import make_prediction
-from app.utils.generate_tips import generate_tips
-from app.utils.joblib_loader import load_prediction_model
+from app.utils.helpers.generate_tips import generate_tips
+from app.utils.loaders.random_forest_loader import load_prediction_model
 from app.pre_processors.random_forest import prepare_input_data
 
-def predict_success_service(input_data: dict):
+def random_forest_service(input_data: dict):
     try:
         prediction, tips = predict_success(input_data)
         logger.info(f"success_rate: {prediction}, tips: {tips}")

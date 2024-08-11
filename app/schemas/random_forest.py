@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
-class PredictRequest(BaseModel):
+class RandomForestRequest(BaseModel):
     category: str
     size: str
     type: str
