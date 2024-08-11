@@ -1,37 +1,20 @@
-import joblib
 import pandas as pd
-import os
+from app.utils import generate_tips
+from app.utils.joblib_loader import load_prediction_model
+from app.pre_processors.random_forest import prepare_input_data
 
-def load_prediction_model():
-    try:
-        model_path = os.path.join(os.path.dirname(__file__), '../..', 'database', 'success_prediction_model.joblib')
-        
-        loaded_model = joblib.load(model_path)
-        
-        return loaded_model
-    except Exception as e:
-        raise e
+def make_prediction(model, test_data: pd.DataFrame) -> float:
+    predictions = model.predict_proba(test_data)
+    success_probability = predictions[0][1] * 100
+    adjusted_probability = min(success_probability + 10, 100)
+    return adjusted_probability
 
-def predict_success(input_series: dict):
+def predict_success(input_series: dict) -> tuple:
     try:
         model = load_prediction_model()
-
-        input_series_renamed = {
-            "category": input_series["category"],
-            "size": input_series["size"],
-            "type": input_series["type"],
-            "price": input_series["price"],
-            "content rating": input_series["content_rating"],
-            "genres": input_series["genres"],
-            "current ver": input_series["current_ver"],
-            "android ver": input_series["android_ver"],
-            "sentiment": input_series["sentiment"],
-        }
-
-        test_data = pd.DataFrame([input_series_renamed])
-
-        predictions = model.predict(test_data)
-
-        return int(predictions[0])
+        test_data = prepare_input_data(input_series)
+        adjusted_probability = make_prediction(model, test_data)
+        tips = generate_tips(input_series, adjusted_probability)
+        return adjusted_probability, tips
     except Exception as e:
         raise e
