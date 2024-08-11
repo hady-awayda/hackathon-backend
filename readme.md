@@ -1,56 +1,63 @@
 # MLFlow FastAPI Example
 
-This repository contains two FastAPI applications for training and loading machine learning models using MLFlow.
+This repository is backend web-app based on FastAPI, that leverages several ML algorithms (Random Forest, Clustering) to predict and analyze the impact of the app metrics on its success, based on a large dataset provided by Google Play Store.
 
 ## Setup
 
-1. Install dependencies:
-
-   ```bash
-   pip install fastapi uvicorn mlflow scikit-learn matplotlib pydantic
-   ```
-
-2. Start the MLFlow server:
-   ```bash
-   mlflow ui
-   ```
-
-# Running the Applications
-
-## Train Decision Tree Model
-
-### To start the training application, run:
+#### 1. Make sure you are using python v3.12.5:
 
 ```bash
-python train_decision_tree.py
+python --version
+Python 3.12.5
 ```
 
-### This will start a FastAPI server on endpoint:
-
-http://localhost:8000/api/v1/train
-
-### Send a POST request with the following in the request body in json format:
+#### 2. Clone the repository
 
 ```bash
-{
-   "criterion": "gini"
-}
+git clone https://github.com/hady-awayda/hackathon-backend.git hackathon-backend
 ```
 
-## To Load Decision Tree Model, run:
+#### 3. Navigate into the cloned directory
 
 ```bash
-python load_model.py
+cd hackathon-backend
 ```
 
-### This will start a FastAPI server on endpoint:
-
-http://localhost:8000/api/v1/load (POST)
-
-### Send a POST request with the following in the request body in json format:
+#### 4. Install dependencies:
 
 ```bash
-{
-   "run_id": "your_run_id_here"
-}
+pip install fastapi uvicorn scikit-learn pydantic joblib python-jose python-dotenv sqlalchemy email-validator passlib pymysql
 ```
+
+#### 5. Start the application:
+
+```bash
+python -m app.main
+```
+
+#### 6. Now the application is running on:
+
+```bash
+http://localhost:8000
+```
+
+#### 7. For the Redocly API Documentation from OpenAPI, in your browser, navigate to:
+
+```bash
+http://localhost:8000/redoc
+```
+
+#### 8. For the OpenAPI Specification 3.0 API Documentation (Swagger UI), in your browser, navigate to:
+
+```bash
+http://localhost:8000/docs
+```
+
+# Testing the APIs
+
+### Register as a new user
+
+# Help & Support
+
+- This app is distributed as an open source project and is free to use for educational purposes
+- If you need any help or stumble upon any issues, please don't hesitate to create a pull request, or contact me at hady.awayda@gmail.com.
