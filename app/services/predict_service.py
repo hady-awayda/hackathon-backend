@@ -1,4 +1,4 @@
-from app.models.predict_model import predict_success
+from app.ml_models.predict_model import predict_success
 from app.utils.logger import logger
 
 def predict_success_service(input_data: dict):
