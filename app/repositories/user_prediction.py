@@ -27,7 +27,7 @@ def update_prediction(db: Session, prediction: UserPrediction):
 
 def delete_prediction(db: Session, prediction: UserPrediction):
     try:
-        prediction.deleted_at = func.now()
+        prediction.deletedAt = func.now()
         db.commit()
         return prediction
     except Exception as e:

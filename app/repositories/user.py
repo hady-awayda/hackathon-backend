@@ -29,7 +29,7 @@ def update_user(db: Session, user: User, request: RegisterRequest):
     
 def delete_user(db: Session, user: User):
     try:
-        user.deleted_at = func.now()
+        user.deletedAt = func.now()
         db.commit()
         return user
     except Exception as e:
@@ -37,13 +37,13 @@ def delete_user(db: Session, user: User):
 
 def get_user_by_id(db: Session, user_id: int):
     try:
-        return db.query(User).filter(User.id == user_id, User.deleted_at == None).first()
+        return db.query(User).filter(User.id == user_id, User.deletedAt == None).first()
     except Exception as e:
         raise e
 
 def get_user_by_email(db: Session, email: str):
     try:
-        return db.query(User).filter(User.email == email, User.deleted_at == None).first()
+        return db.query(User).filter(User.email == email, User.deletedAt == None).first()
     except Exception as e:
         raise e
 

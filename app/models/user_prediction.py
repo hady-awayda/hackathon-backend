@@ -20,9 +20,9 @@ class UserPrediction(Base):
     sentiment = Column(Integer, nullable=False)
     success_rate = Column(Float, nullable=False)
     tips = Column(String(255), nullable=True)
-    created_at = Column(TIMESTAMP, server_default=func.now())
-    updated_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
-    deleted_at = Column(TIMESTAMP, nullable=True)
+    createdAt = Column(TIMESTAMP, server_default=func.now())
+    updatedAt = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
+    deletedAt = Column(TIMESTAMP, nullable=True)
     user_id = Column(Integer, ForeignKey('users.id'))
 
     user = relationship("User", back_populates="predictions")
