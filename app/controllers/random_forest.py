@@ -6,6 +6,9 @@ def random_forest_controller(request: RandomForestRequest):
     try:
         input_series = request.model_dump()
         prediction = random_forest_service(input_series)
-        return {"prediction": prediction}
+        
+        return {
+            "prediction": prediction
+        }
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

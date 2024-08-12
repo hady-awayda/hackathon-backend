@@ -1,4 +1,3 @@
-import json
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
@@ -9,9 +8,9 @@ def predict_similar_apps(user_input_vector: dict, df: pd.DataFrame, df_reviews: 
 
     similar_indices = find_similar_indices(user_input_vector_processed, X_processed, n_similar)
 
-    res = aggregate_similar_apps(df, df_reviews, similar_indices)
+    detailed_similar_apps, aggregation = aggregate_similar_apps(df, df_reviews, similar_indices)
     
-    return res
+    return detailed_similar_apps, aggregation
 
 def find_similar_indices(user_input_vector_processed, X_processed, n_similar):
     similarities = cosine_similarity(user_input_vector_processed, X_processed).flatten()
@@ -20,7 +19,7 @@ def find_similar_indices(user_input_vector_processed, X_processed, n_similar):
 
 def aggregate_similar_apps(df: pd.DataFrame, df_reviews: pd.DataFrame, similar_indices: np.ndarray[any, any]):
     similar_apps = df.iloc[similar_indices]
-    aggregation = similar_apps[['rating', 'reviews', 'size', 'installs', 'price']].agg(['mean', 'std'])
+    aggregation = similar_apps[['rating', 'reviews', 'size', 'installs', 'price']].agg(['mean', 'std']).to_dict(orient='index')
 
     detailed_similar_apps = []
     for _, app in similar_apps.iterrows():
@@ -48,9 +47,9 @@ def aggregate_similar_apps(df: pd.DataFrame, df_reviews: pd.DataFrame, similar_i
             'all_reviews': reviews_list
         })
 
-    aggregation_json = aggregation.to_dict(orient='index')
+    for stat in aggregation:
+        for key, value in aggregation[stat].items():
+            if np.isnan(value) or np.isinf(value):
+                aggregation[stat][key] = None
 
-    return {
-        'similar_apps': detailed_similar_apps,
-        'aggregation': aggregation_json
-    }
+    return detailed_similar_apps, aggregation
