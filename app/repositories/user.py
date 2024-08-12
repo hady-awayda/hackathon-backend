@@ -1,7 +1,8 @@
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 from app.schemas.auth import RegisterRequest
 from app.utils.auth.hash_password import hash_password, verify_password
-from app.models.users import User
+from app.models.user import User
 
 def create_user(db: Session, request: RegisterRequest):
     try:
@@ -14,10 +15,35 @@ def create_user(db: Session, request: RegisterRequest):
     except Exception as e:
         db.rollback()
         raise e
+    
+def update_user(db: Session, user: User, request: RegisterRequest):
+    try:
+        user.name = request.name
+        user.email = request.email
+        db.commit()
+        db.refresh(user)
+        return user
+    except Exception as e:
+        db.rollback()
+        raise e
+    
+def delete_user(db: Session, user: User):
+    try:
+        user.deleted_at = func.now()
+        db.commit()
+        return user
+    except Exception as e:
+        raise e
+
+def get_user_by_id(db: Session, user_id: int):
+    try:
+        return db.query(User).filter(User.id == user_id, User.deleted_at == None).first()
+    except Exception as e:
+        raise e
 
 def get_user_by_email(db: Session, email: str):
     try:
-        return db.query(User).filter(User.email == email).first()
+        return db.query(User).filter(User.email == email, User.deleted_at == None).first()
     except Exception as e:
         raise e
 
