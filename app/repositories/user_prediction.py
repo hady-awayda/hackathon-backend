@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.models.user_prediction import UserPrediction
 
 def get_prediction_by_id(db: Session, prediction_id: int):
-    return db.query(UserPrediction).filter(UserPrediction.id == prediction_id, UserPrediction.deleted_at == None).first()
+    return db.query(UserPrediction).filter(UserPrediction.id == prediction_id, UserPrediction.deletedAt == None).first()
 
 def create_prediction(db: Session, prediction: UserPrediction):
 	try:
