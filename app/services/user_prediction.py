@@ -9,11 +9,10 @@ def create_prediction_service(db: Session, prediction_data: dict):
     prediction = UserPrediction(**prediction_data)
     return create_prediction(db, prediction)
 
-def update_prediction_service(db: Session, prediction_id: int, prediction_data: dict):
-    prediction = get_prediction_by_id(db, prediction_id)
-    if prediction:
-        return update_prediction(db, prediction, prediction_data)
-    return None
+def update_prediction_service(db: Session, prediction: UserPrediction, prediction_data: dict):
+    for key, value in prediction_data.items():
+        setattr(prediction, key, value)
+    return update_prediction(db, prediction)
 
 def delete_prediction_service(db: Session, prediction_id: int):
     prediction = get_prediction_by_id(db, prediction_id)

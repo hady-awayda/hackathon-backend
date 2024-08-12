@@ -13,7 +13,7 @@ def get_prediction(prediction_id: int, db: Session = Depends(get_db)):
 def create_prediction(prediction_data: dict, db: Session = Depends(get_db)):
     return create_prediction_controller(db, prediction_data)
 
-@router.put("/{prediction_id}")
+@router.patch("/{prediction_id}")
 def update_prediction(prediction_id: int, prediction_data: dict, db: Session = Depends(get_db)):
     return update_prediction_controller(db, prediction_id, prediction_data)
 
