@@ -1,4 +1,4 @@
-# MLFlow FastAPI Example
+# App Success prediction service
 
 This repository is backend web-app based on FastAPI, that leverages several ML algorithms (Random Forest, Clustering) to predict and analyze the impact of the app metrics on its success, based on a large dataset provided by Google Play Store.
 
