@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+scikit-learn
+pydantic
+joblib
+python-jose
+python-dotenv
+sqlalchemy
+email-validator
+passlib
+pymysql
+bcrypt
