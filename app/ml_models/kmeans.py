@@ -1,3 +1,4 @@
+import json
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
@@ -8,9 +9,9 @@ def predict_similar_apps(user_input_vector: dict, df: pd.DataFrame, df_reviews: 
 
     similar_indices = find_similar_indices(user_input_vector_processed, X_processed, n_similar)
 
-    similar_apps, aggregation = aggregate_similar_apps(df, df_reviews, similar_indices)
+    res = aggregate_similar_apps(df, df_reviews, similar_indices)
     
-    return similar_apps, aggregation
+    return res
 
 def find_similar_indices(user_input_vector_processed, X_processed, n_similar):
     similarities = cosine_similarity(user_input_vector_processed, X_processed).flatten()
@@ -20,9 +21,6 @@ def find_similar_indices(user_input_vector_processed, X_processed, n_similar):
 def aggregate_similar_apps(df: pd.DataFrame, df_reviews: pd.DataFrame, similar_indices: np.ndarray[any, any]):
     similar_apps = df.iloc[similar_indices]
     aggregation = similar_apps[['rating', 'reviews', 'size', 'installs', 'price']].agg(['mean', 'std'])
-
-    # for key, value in aggregation.items():
-    #     aggregation[key] = {k: (None if pd.isna(v) else v) for k, v in value.items()}
 
     detailed_similar_apps = []
     for _, app in similar_apps.iterrows():
@@ -42,14 +40,17 @@ def aggregate_similar_apps(df: pd.DataFrame, df_reviews: pd.DataFrame, similar_i
         
         detailed_similar_apps.append({
             'app': app_name,
-            'rating': app['rating'],
-            'reviews': app['reviews'],
-            'size': app['size'],
-            'installs': app['installs'],
-            'price': app['price'],
+            'rating': None if np.isnan(app['rating']) or np.isinf(app['rating']) else app['rating'],
+            'reviews': None if np.isnan(app['reviews']) or np.isinf(app['reviews']) else app['reviews'],
+            'size': None if np.isnan(app['size']) or np.isinf(app['size']) else app['size'],
+            'installs': None if np.isnan(app['installs']) or np.isinf(app['installs']) else app['installs'],
+            'price': None if np.isnan(app['price']) or np.isinf(app['price']) else app['price'],
             'all_reviews': reviews_list
         })
 
-    # print(detailed_similar_apps, aggregation)
-    
-    return detailed_similar_apps, aggregation
+    aggregation_json = aggregation.to_dict(orient='index')
+
+    return {
+        'similar_apps': detailed_similar_apps,
+        'aggregation': aggregation_json
+    }
