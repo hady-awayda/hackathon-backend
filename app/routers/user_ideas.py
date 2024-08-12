@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.controllers.user_prediction import create_prediction_controller, get_prediction_controller, delete_prediction_controller, update_prediction_controller
+from app.middleware.checkPaidUser import check_paid_user
 from config.database import get_db
 
-router = APIRouter()
+router = APIRouter(
+    dependencies=[Depends(check_paid_user)])
 
 @router.get("/{prediction_id}")
 def get_prediction(prediction_id: int, db: Session = Depends(get_db)):
