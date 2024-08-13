@@ -1,8 +1,11 @@
-from sqlalchemy import func
-from sqlalchemy.orm import Session
-from app.schemas.auth import RegisterRequest
 from app.utils.auth.hash_password import hash_password, verify_password
+from app.schemas.auth import RegisterRequest
+from sqlalchemy.orm import Session
+from config.database import get_db
 from app.models.user import User
+from sqlalchemy import func
+
+db: Session = next(get_db())
 
 def create_user(db: Session, request: RegisterRequest):
     try:
@@ -10,8 +13,6 @@ def create_user(db: Session, request: RegisterRequest):
         db_user = User(name=request.name ,email=request.email, password=hashed_password)
         db.add(db_user)
         db.commit()
-        db.refresh(db_user)
-        return db_user
     except Exception as e:
         db.rollback()
         raise e
@@ -21,8 +22,6 @@ def update_user(db: Session, user: User, request: RegisterRequest):
         user.name = request.name
         user.email = request.email
         db.commit()
-        db.refresh(user)
-        return user
     except Exception as e:
         db.rollback()
         raise e
@@ -31,7 +30,6 @@ def delete_user(db: Session, user: User):
     try:
         user.deletedAt = func.now()
         db.commit()
-        return user
     except Exception as e:
         raise e
 
