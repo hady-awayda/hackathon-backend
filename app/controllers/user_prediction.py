@@ -12,7 +12,12 @@ def get_prediction_controller(prediction_id: int):
 
 def create_prediction_controller(prediction_data: dict):
     try:
-        return create_prediction_service(prediction_data)
+        prediction = create_prediction_service(prediction_data)
+        if not prediction_data:
+            raise HTTPException(status_code=400, detail="Prediction data not provided")
+        elif prediction is None:
+            raise HTTPException(status_code=500, detail="Failed to create prediction")
+        return {"message": prediction}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -21,7 +26,8 @@ def update_prediction_controller(prediction_id: int, prediction_data: dict):
         prediction = get_prediction_service(prediction_id)
         if prediction is None:
             raise HTTPException(status_code=404, detail="Prediction not found")
-        return update_prediction_service(prediction, prediction_data)
+        # return update_prediction_service(prediction, prediction_data)
+        return{"message": prediction}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -30,6 +36,6 @@ def delete_prediction_controller(prediction_id: int):
         prediction = delete_prediction_service(prediction_id)
         if prediction is None:
             raise HTTPException(status_code=404, detail="Prediction not found")
-        return {"message": "Prediction deleted successfully"}
+        return{"message": prediction}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
