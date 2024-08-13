@@ -13,6 +13,7 @@ def create_user(request: RegisterRequest):
         db_user = User(name=request.name ,email=request.email, password=hashed_password)
         db.add(db_user)
         db.commit()
+        return db_user
     except Exception as e:
         db.rollback()
         raise e
