@@ -7,7 +7,7 @@ from sqlalchemy import func
 
 db: Session = next(get_db())
 
-def create_user(db: Session, request: RegisterRequest):
+def create_user(request: RegisterRequest):
     try:
         hashed_password = hash_password(request.password)
         db_user = User(name=request.name ,email=request.email, password=hashed_password)
@@ -17,7 +17,7 @@ def create_user(db: Session, request: RegisterRequest):
         db.rollback()
         raise e
     
-def update_user(db: Session, user: User, request: RegisterRequest):
+def update_user(user: User, request: RegisterRequest):
     try:
         user.name = request.name
         user.email = request.email
@@ -26,27 +26,27 @@ def update_user(db: Session, user: User, request: RegisterRequest):
         db.rollback()
         raise e
     
-def delete_user(db: Session, user: User):
+def delete_user(user: User):
     try:
         user.deletedAt = func.now()
         db.commit()
     except Exception as e:
         raise e
 
-def get_user_by_id(db: Session, user_id: int):
+def get_user_by_id(user_id: int):
     try:
         return db.query(User).filter(User.id == user_id, User.deletedAt == None).first()
     except Exception as e:
         raise e
 
-def get_user_by_email(db: Session, email: str):
+def get_user_by_email(email: str):
     try:
         return db.query(User).filter(User.email == email, User.deletedAt == None).first()
     except Exception as e:
         raise e
 
-def authenticate_user(db: Session, email: str, password: str):
-    user = get_user_by_email(db, email)
+def authenticate_user(email: str, password: str):
+    user = get_user_by_email(email)
     if user and verify_password(password, user.password):
         return user
     return None
