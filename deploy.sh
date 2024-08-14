@@ -23,4 +23,4 @@
 docker-compose -f docker-compose.app.yml up -d --build
 
 # Cleanup images
-docker image prune -f
+# docker image prune -f
