@@ -26,7 +26,7 @@ cd hackathon-backend
 #### 4. Install dependencies:
 
 ```bash
-pip install fastapi uvicorn scikit-learn pydantic joblib python-jose python-dotenv sqlalchemy email-validator passlib pymysql bcrypt pandas
+pip install fastapi uvicorn scikit-learn pydantic joblib python-jose python-dotenv sqlalchemy email-validator passlib pymysql bcrypt pandas cryptography
 ```
 
 #### 5. Start the application:
