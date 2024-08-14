@@ -22,5 +22,5 @@ fi
 # Always run the app container
 docker-compose -f docker-compose.app.yml up -d --build
 
-# Cleanup
+# Cleanup images
 docker image prune -f
