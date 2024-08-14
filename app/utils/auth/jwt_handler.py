@@ -1,5 +1,4 @@
-from datetime import timedelta
-import datetime
+from datetime import timedelta, timezone, datetime
 from jose import JWTError, jwt
 from dotenv import load_dotenv
 import os
@@ -9,7 +8,7 @@ load_dotenv()
 SECRET_KEY = os.getenv("JWT_SECRET")
 ALGORITHM = "HS512"
 ACCESS_TOKEN_EXPIRE_MINUTES = 365
-timestamp = datetime.datetime.now(datetime.UTC)
+timestamp = datetime.now(timezone.utc)
 
 def create_access_token(email: str, subscription_tier: str):
     to_encode = {"email": email, "role": subscription_tier}
