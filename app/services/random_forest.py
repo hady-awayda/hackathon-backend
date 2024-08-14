@@ -15,8 +15,11 @@ def predict_success(input_series: dict) -> tuple:
     try:
         model = load_prediction_model()
         test_data = prepare_input_data(input_series)
+        print("Finished preparing input data")
         initial_probability  = make_prediction(model, test_data)
+        print("Finished making prediction")
         tips, adjusted_probability  = generate_tips(input_series, initial_probability )
+        print("Finished generating tips")
         return adjusted_probability, tips
     except Exception as e:
         raise e
