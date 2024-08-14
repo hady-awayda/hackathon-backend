@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Pull latest changes
-sudo git pull
-
 # Create network if it doesn't exist
 docker network create hackathon-network || true
 

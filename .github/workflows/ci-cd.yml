@@ -53,5 +53,6 @@ jobs:
           key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
           script: |
             cd /home/ubuntu/hackathon-backend
-            chmod +x deploy.sh
+            sudo git pull
+            sudo chmod +x deploy.sh
             ./deploy.sh
