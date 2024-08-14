@@ -11,3 +11,4 @@ passlib
 pymysql
 bcrypt
 pandas
+cryptography
