@@ -56,3 +56,9 @@ jobs:
             sudo git pull
             sudo chmod +x deploy.sh
             ./deploy.sh
+            # Ensure all background processes are terminated
+            kill $(jobs -p) 2>/dev/null
+            # Wait for any remaining processes to finish
+            wait
+            # Explicitly exit the SSH session
+            exit
