@@ -7,10 +7,8 @@ from app.pre_processors.random_forest import prepare_input_data
 def random_forest_service(input_data: dict):
     try:
         prediction, tips = predict_success(input_data)
-        logger.info(f"success_rate: {prediction}, tips: {tips}")
         return prediction, tips
     except Exception as e:
-        logger.error(f"Error: {e}")
         raise e
     
 def predict_success(input_series: dict) -> tuple:
