@@ -4,7 +4,7 @@ from app.routers.auth import router as auth_router
 from app.routers.kmeans import router as kmeans_router
 from app.routers.random_forest import router as random_forest_router
 from app.routers.user_ideas import router as user_ideas_router
-# from config.database import create_tables
+from config.database import create_tables
 
 app = FastAPI()
 
@@ -22,6 +22,6 @@ app.include_router(kmeans_router, prefix="/api/v1/predict")
 app.include_router(random_forest_router, prefix="/api/v1/predict")
 
 if __name__ == "__main__":
-    # create_tables()
+    create_tables()
     import uvicorn
     uvicorn.run(app, host="127.0.0.1", port=8000)

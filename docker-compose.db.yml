@@ -17,24 +17,9 @@ services:
           cpus: "0.5"
           memory: "512M"
 
-  hackathon-backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: hackathon-backend-dev
-    networks:
-      - hackathon-network
-    ports:
-      - "127.0.0.1:8000:8000"
-    deploy:
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: "512M"
-
 networks:
   hackathon-network:
-    driver: bridge
+    external: true
 
 volumes:
   mysql-data:

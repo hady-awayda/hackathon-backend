@@ -1,0 +1,22 @@
+services:
+  hackathon-backend:
+    image: hackathon-backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hackathon-backend-dev
+    env_file:
+      - .env
+    networks:
+      - hackathon-network
+    ports:
+      - "127.0.0.1:8000:8000"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512M"
+
+networks:
+  hackathon-network:
+    external: true
